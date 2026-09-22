@@ -72,7 +72,7 @@
             </div>
         </article>
 
-        <section class="bloco">
+        <section class="bloco bloco-destaques">
             <h2>Destaques desta edição</h2>
             <!-- Lista NÃO ordenada: a ordem dos destaques não altera o sentido do
                  conteúdo, são apenas vantagens equivalentes entre si. -->
@@ -159,6 +159,16 @@
                 </p>
 
                 <p class="campo">
+                    <label for="telefone">Telefone para contato</label>
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        placeholder="(00) 00000-0000"
+                        autocomplete="tel">
+                </p>
+
+                <p class="campo">
                     <label for="senha">Crie uma senha para acompanhar seu pedido</label>
                     <input type="password" id="senha" name="senha">
                 </p>
@@ -241,7 +251,7 @@ BOAS PRÁTICAS APLICADAS
 =========================================================================
 - Todas as tags estão corretamente aninhadas e fechadas.
 - Nenhum id se repete na página (cabecalho, contador, catalogo, btn-adicionar,
-  carrinho, selo-destaque, contato, nome, email, senha, pref-email,
+  carrinho, selo-destaque, contato, nome, email, telefone, senha, pref-email,
   pref-telefone, novidades, rodape).
 - A indentação de 4 espaços cresce junto com a hierarquia dos elementos.
 - Toda imagem tem alt descritivo e todo input tem <label> associado por for/id.

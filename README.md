@@ -91,7 +91,7 @@ basta.
   JavaScript.
 - **Nenhum `id` repetido na página.** Cada `id` aparece uma única vez
   (`cabecalho`, `contador`, `catalogo`, `btn-adicionar`, `carrinho`,
-  `selo-destaque`, `contato`, `nome`, `email`, `senha`, `pref-email`,
+  `selo-destaque`, `contato`, `nome`, `email`, `telefone`, `senha`, `pref-email`,
   `pref-telefone`, `novidades`, `rodape`). Isso é obrigatório porque
   `document.getElementById()` e os links internos `#id` retornam apenas a
   primeira ocorrência — ids duplicados causam bugs silenciosos.
@@ -118,7 +118,7 @@ basta.
 | 1 – HTML semântico | `index.html` inteiro + comentário de justificativa no final |
 | 2 – Seletores e cascata | `css/estilo.css`, blocos comentados 1 a 4 e "EXPERIMENTO DE ESPECIFICIDADE" |
 | 3 – Flexbox e Grid | `css/estilo.css`: `#cabecalho` e `.menu-lista` (Flex), `.cartao-livro` e `.grade-formatos` (Grid) |
-| 4 – Responsividade | `<meta name="viewport">` no `index.html` + `@media (max-width: 600px)` no fim do CSS |
+| 4 – Responsividade | `<meta name="viewport">` no `index.html` + `@media (max-width: 42rem)` e ajuste extra para celulares estreitos no fim do CSS |
 | 5 – JavaScript e DOM | `js/script.js` |
 | 6 – Formulário | `<section id="contato">` no `index.html` |
 | 7 – Pastas e caminhos | estrutura acima + respostas 1 e 2 deste README |

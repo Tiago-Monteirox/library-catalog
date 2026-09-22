@@ -112,7 +112,7 @@ h3 {
     display: inline-block;
     min-width: 1.5em;
     padding: 0.1em 0.5em;
-    background-color: #c4732a;
+    background-color: #a45518;
     border-radius: 1rem;
     text-align: center;
     font-weight: bold;
@@ -124,7 +124,7 @@ h3 {
    O elemento <p class="selo" id="selo-destaque"> recebe DUAS regras de
    background-color ao mesmo tempo: uma por id e outra por classe.
 
-   Resultado observado no navegador: prevalece o LARANJA (#c4732a), definido
+   Resultado observado no navegador: prevalece o LARANJA (#a45518), definido
    por #selo-destaque.
 
    Por quê? Porque o navegador só olha a ordem do arquivo quando as regras têm
@@ -140,7 +140,7 @@ h3 {
    específico. Só outro !important de especificidade maior reverteria isso.
    ========================================================================= */
 #selo-destaque {
-    background-color: #c4732a;   /* laranja — VENCE (especificidade 1,0,0) */
+    background-color: #a45518;   /* laranja — VENCE (especificidade 1,0,0) */
     color: #ffffff;
 }
 
@@ -176,16 +176,22 @@ main {
 
 .cartao-livro {
     display: grid;
-    grid-template-columns: 18rem 1fr;
-    gap: 2rem;
-    align-items: start;
+    grid-template-columns: minmax(13rem, 16rem) minmax(0, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+    /* Centraliza a capa na altura criada pelo bloco de texto, evitando o
+       grande vazio visual que ficava somente abaixo da imagem. */
+    align-items: center;
     margin-bottom: 2.5rem;
 }
 
 .capa {
-    /* Imagem nunca estoura a coluna em que está. */
+    /* Mantém a proporção 2:3 da capa e evita que ela domine o cartão. */
     width: 100%;
+    max-width: 16rem;
     height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    justify-self: center;
     border-radius: 0.375rem;
 }
 
@@ -213,7 +219,7 @@ main {
    ------------------------------------------------------------------------- */
 #btn-adicionar {
     display: inline-block;
-    background-color: #c4732a;
+    background-color: #a45518;
     color: #ffffff;
     border: none;
     border-radius: 0.375rem;
@@ -227,7 +233,7 @@ main {
 
 /* ETAPA 2 — :hover também no botão, reaproveitado pela Etapa 3. */
 #btn-adicionar:hover {
-    background-color: #8f4f16;
+    background-color: #7c3d10;
     transform: translateY(-2px);
 }
 
@@ -256,6 +262,17 @@ main {
     color: #123d33;
     border-bottom: 2px solid #ddd4c0;
     padding-bottom: 0.3em;
+}
+
+/* Centraliza o bloco de destaques, preservando a leitura da lista à esquerda. */
+.bloco-destaques {
+    text-align: center;
+}
+
+.bloco-destaques .destaques {
+    display: inline-block;
+    text-align: left;
+    margin: 0 auto;
 }
 
 .destaques {
@@ -287,7 +304,7 @@ main {
 .preco-formato {
     font-size: 1.25rem;
     font-weight: bold;
-    color: #c4732a;
+    color: #a45518;
 }
 
 /* -------------------------------------------------------------------------
@@ -333,6 +350,17 @@ main {
     max-width: 30rem;
 }
 
+/* O conteúdo do contato fica centralizado, mas os campos continuam alinhados
+   à esquerda para facilitar a leitura e o preenchimento do formulário. */
+#contato {
+    text-align: center;
+}
+
+#contato .formulario {
+    margin-inline: auto;
+    text-align: left;
+}
+
 .campo {
     display: block;
     margin-bottom: 1.25rem;
@@ -347,6 +375,7 @@ main {
 
 .campo input[type="text"],
 .campo input[type="email"],
+.campo input[type="tel"],
 .campo input[type="password"] {
     width: 100%;
     padding: 0.6em;
@@ -425,14 +454,14 @@ main {
 /* =========================================================================
    ETAPA 4 — RESPONSIVIDADE
    =========================================================================
-   Ponto de quebra em 600px. Abaixo dessa largura:
+   Ponto de quebra em 42rem (672px). Abaixo dessa largura:
    - o cartão do livro passa de duas colunas para UMA, empilhando capa e
      dados verticalmente em vez de lado a lado;
    - o menu do cabeçalho deixa de ser uma linha e passa a exibir um item por
      linha;
    - a grade de formatos vira coluna única.
    ========================================================================= */
-@media (max-width: 600px) {
+@media (max-width: 42rem) {
 
     #cabecalho {
         flex-direction: column;
@@ -449,6 +478,7 @@ main {
 
     .link-menu {
         display: block;
+        padding: 0.625em 0.75em;
     }
 
     /* Cartão do livro empilhado. */
@@ -458,7 +488,7 @@ main {
     }
 
     .capa {
-        max-width: 14rem;
+        max-width: 15rem;
         margin: 0 auto;
     }
 
@@ -472,5 +502,20 @@ main {
 
     main {
         width: 94%;
+    }
+}
+
+/* Em celulares muito estreitos, a tabela mantém 100% da largura sem criar
+   rolagem horizontal. */
+@media (max-width: 24rem) {
+    .tabela-formatos {
+        table-layout: fixed;
+        font-size: 0.9rem;
+    }
+
+    .tabela-formatos th,
+    .tabela-formatos td {
+        padding: 0.65em 0.45em;
+        overflow-wrap: anywhere;
     }
 }
