@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <!-- Etapa 4 - item 1: orienta o navegador a usar a largura real do dispositivo
+         e escala inicial 1, em vez de simular uma tela de desktop no celular. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Catálogo | Livraria Página Viva</title>
+    <!-- Etapa 2 / Etapa 7: CSS externo, com caminho relativo à pasta do projeto. -->
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header id="cabecalho">
+        <h1 class="marca">Livraria Página Viva</h1>
+
+        <nav class="menu" aria-label="Menu principal">
+            <ul class="menu-lista">
+                <li><a class="link-menu" href="#cabecalho">Início</a></li>
+                <li><a class="link-menu" href="#catalogo">Catálogo</a></li>
+                <!-- Link interno obrigatório (Etapa 1): navega até a seção de
+                     contato na mesma página, sem recarregar o documento. -->
+                <li><a class="link-menu" href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+
+        <p class="carrinho-resumo">
+            Itens no carrinho: <span id="contador">0</span>
+        </p>
+    </header>
+
+    <main id="catalogo">
+
+        <article class="cartao cartao-livro">
+            <img
+                class="capa"
+                src="imagens/capa-livro.png"
+                alt="Capa do livro O Jardim das Palavras Perdidas, com fundo verde-escuro e o título em letras douradas">
+
+            <div class="livro-dados">
+                <h2 class="titulo-livro">O Jardim das Palavras Perdidas</h2>
+                <p class="autor">Helena Marques</p>
+                <p class="preco">R$ 59,90</p>
+
+                <!-- Experimento de especificidade da Etapa 2: este elemento recebe
+                     ao mesmo tempo a classe .selo e o id #selo-destaque. -->
+                <p class="selo" id="selo-destaque">Edição especial de aniversário</p>
+
+                <p>
+                    Em uma pequena cidade do interior, a bibliotecária Alice descobre que
+                    os livros devolvidos à antiga Biblioteca Municipal voltam sempre com
+                    uma palavra a menos. Nenhum leitor sabe explicar o desaparecimento, e
+                    os registros de empréstimo simplesmente não batem.
+                </p>
+                <p>
+                    Movida por uma curiosidade que logo vira obsessão, Alice começa a
+                    catalogar cada ausência em um caderno próprio. O que parecia um erro
+                    de revisão se revela um mapa: as palavras perdidas formam, juntas, a
+                    história que ninguém teve coragem de contar sobre a cidade.
+                </p>
+                <p>
+                    Com prosa delicada e um mistério que se desenrola até a última página,
+                    Helena Marques constrói uma homenagem à leitura e ao poder de nomear as
+                    coisas. Um romance sobre memória, silêncio e as histórias que insistem
+                    em permanecer.
+                </p>
+
+                <button id="btn-adicionar" type="button">Adicionar ao carrinho</button>
+
+                <!-- Etapa 5: lista que começa vazia e é preenchida pelo JavaScript. -->
+                <ul id="carrinho"></ul>
+            </div>
+        </article>
+
+        <section class="bloco">
+            <h2>Destaques desta edição</h2>
+            <!-- Lista NÃO ordenada: a ordem dos destaques não altera o sentido do
+                 conteúdo, são apenas vantagens equivalentes entre si. -->
+            <ul class="destaques">
+                <li>Capa dura com acabamento fosco</li>
+                <li>Frete grátis para todo o Brasil</li>
+                <li>Entrega em 24h nas capitais</li>
+                <li>Marcador de página exclusivo</li>
+                <li>Primeira edição numerada</li>
+            </ul>
+        </section>
+
+        <section class="bloco">
+            <h2>Formatos disponíveis</h2>
+
+            <!-- Etapa 3 - item 3: estes três cartões são dispostos com CSS Grid. -->
+            <div class="grade-formatos">
+                <article class="cartao cartao-formato">
+                    <h3>Físico</h3>
+                    <p class="preco-formato">R$ 59,90</p>
+                    <p>Capa dura, 312 páginas, papel pólen.</p>
+                </article>
+
+                <article class="cartao cartao-formato">
+                    <h3>E-book</h3>
+                    <p class="preco-formato">R$ 29,90</p>
+                    <p>Arquivo ePub e PDF, sem DRM.</p>
+                </article>
+
+                <article class="cartao cartao-formato">
+                    <h3>Audiobook</h3>
+                    <p class="preco-formato">R$ 39,90</p>
+                    <p>Narrado pela autora, 8h12min.</p>
+                </article>
+            </div>
+
+            <!-- Tabela: existe relação tabular real entre as linhas (formato) e as
+                 colunas (preço e prazo de entrega), por isso <table> e não <ul>. -->
+            <table class="tabela-formatos">
+                <caption>Comparativo de preço e prazo por formato</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Formato</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Prazo de entrega</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Físico</th>
+                        <td>R$ 59,90</td>
+                        <td>2 a 5 dias úteis</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">E-book</th>
+                        <td>R$ 29,90</td>
+                        <td>Imediato</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Audiobook</th>
+                        <td>R$ 39,90</td>
+                        <td>Imediato</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="bloco" id="contato">
+            <h2>Contato</h2>
+            <p>Ficou com alguma dúvida sobre o pedido? Fale com a gente.</p>
+
+            <!-- Etapa 6: um campo para cada tipo de input exigido, todos com
+                 <label> associado pelo par for / id. -->
+            <form class="formulario" action="#" method="post">
+
+                <p class="campo">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome">
+                </p>
+
+                <p class="campo">
+                    <label for="email">E-mail para contato</label>
+                    <input type="email" id="email" name="email" placeholder="voce@exemplo.com">
+                </p>
+
+                <p class="campo">
+                    <label for="senha">Crie uma senha para acompanhar seu pedido</label>
+                    <input type="password" id="senha" name="senha">
+                </p>
+
+                <fieldset class="campo">
+                    <legend>Preferência de contato</legend>
+                    <!-- Mesmo atributo name nos dois radios: são mutuamente exclusivos. -->
+                    <span class="opcao">
+                        <input type="radio" id="pref-email" name="preferencia" value="email" checked>
+                        <label for="pref-email">E-mail</label>
+                    </span>
+                    <span class="opcao">
+                        <input type="radio" id="pref-telefone" name="preferencia" value="telefone">
+                        <label for="pref-telefone">Telefone</label>
+                    </span>
+                </fieldset>
+
+                <p class="campo opcao">
+                    <input type="checkbox" id="novidades" name="novidades">
+                    <label for="novidades">Aceito receber novidades por e-mail</label>
+                </p>
+
+                <button type="submit" class="btn-enviar">Enviar</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer id="rodape">
+        <p>Livraria Página Viva</p>
+        <p><a href="mailto:contato@paginaviva.com.br">contato@paginaviva.com.br</a></p>
+    </footer>
+
+    <!-- Etapa 5 / Etapa 7: script no final do <body> para que os elementos já
+         existam no DOM quando o JavaScript tentar selecioná-los. -->
+    <script src="js/script.js"></script>
+
+<!--
+=========================================================================
+JUSTIFICATIVA DOS ELEMENTOS SEMÂNTICOS (Etapa 1)
+=========================================================================
+
+<header>
+    Agrupa o conteúdo introdutório e de identificação da página: o nome da
+    livraria, a navegação principal e o resumo do carrinho. Uma <div> genérica
+    marcaria apenas um bloco visual, enquanto <header> comunica a navegadores,
+    leitores de tela e buscadores que ali está o cabeçalho do documento.
+
+<nav>
+    Delimita explicitamente o conjunto de links de navegação principal do site.
+    Isso permite que tecnologias assistivas ofereçam o atalho "pular para a
+    navegação"; uma <div class="menu"> teria a mesma aparência, mas nenhum
+    significado para quem não enxerga a página.
+
+<main>
+    Marca o conteúdo central e único desta página — o catálogo do livro —
+    excluindo cabeçalho, menu e rodapé, que se repetem em todas as páginas.
+    Como só pode existir um <main> por documento, ele funciona como ponto de
+    entrada direto para o conteúdo, algo que uma <div id="conteudo"> não faz.
+
+<article>
+    Usado no cartão do livro e em cada cartão de formato porque cada um é uma
+    unidade de conteúdo independente e autocontida: faria sentido sozinha, fora
+    desta página, em um feed ou em um resultado de busca. Uma <div> não carrega
+    essa noção de conteúdo completo e reaproveitável.
+
+<section>
+    Agrupa os blocos temáticos da página (destaques, formatos e contato), cada um
+    com seu próprio título <h2> que o identifica. <section> expressa "um trecho
+    temático do documento" e alimenta o sumário de títulos usado por leitores de
+    tela, coisa que uma <div> de agrupamento visual não faz.
+
+<footer>
+    Fecha o documento com as informações de rodapé — nome da livraria e e-mail de
+    contato. A tag já indica que aquele conteúdo é acessório e de encerramento,
+    dispensando classes extras para explicar o papel do bloco.
+
+=========================================================================
+BOAS PRÁTICAS APLICADAS
+=========================================================================
+- Todas as tags estão corretamente aninhadas e fechadas.
+- Nenhum id se repete na página (cabecalho, contador, catalogo, btn-adicionar,
+  carrinho, selo-destaque, contato, nome, email, senha, pref-email,
+  pref-telefone, novidades, rodape).
+- A indentação de 4 espaços cresce junto com a hierarquia dos elementos.
+- Toda imagem tem alt descritivo e todo input tem <label> associado por for/id.
+-->
+
+</body>
+</html>

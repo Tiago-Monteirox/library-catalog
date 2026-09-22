@@ -1,0 +1,476 @@
+/* =========================================================================
+   Livraria Página Viva — folha de estilo externa
+   Vinculada ao index.html por <link rel="stylesheet" href="css/estilo.css">
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   ETAPA 2 — 1. SELETOR DE ELEMENTO
+   Atinge todos os elementos de um tipo, sem precisar de classe ou id.
+   Usado aqui para definir o estilo base de texto da página inteira.
+   ------------------------------------------------------------------------- */
+body {
+    margin: 0;
+    /* Unidade relativa (rem) no tamanho de fonte — Etapa 4, item 3. */
+    font-size: 1rem;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.6;
+    color: #2b2b2b;
+    background-color: #f5f1e8;
+}
+
+/* Outro seletor de elemento: espaçamento padrão dos parágrafos. */
+p {
+    margin: 0 0 1em 0;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.25;
+}
+
+/* -------------------------------------------------------------------------
+   ETAPA 2 — 3. SELETOR DE ID
+   O id é único na página, então #cabecalho estiliza um só elemento.
+   Aqui ele dá ao <header> a cor de fundo diferenciada pedida na Etapa 2.
+   ------------------------------------------------------------------------- */
+#cabecalho {
+    background-color: #123d33;
+    color: #f5f1e8;
+    /* Unidade relativa (em) no espaçamento interno — Etapa 4, item 3. */
+    padding: 1.5em 2em;
+
+    /* ---------------------------------------------------------------------
+       ETAPA 3 — item 1: FLEXBOX no cabeçalho.
+       Justificativa: marca, menu e resumo do carrinho precisam ser
+       distribuídos ao longo de UMA única dimensão (a linha horizontal).
+       Flexbox existe exatamente para isso; Grid seria excesso de ferramenta
+       porque não há linhas e colunas simultâneas a resolver aqui.
+       --------------------------------------------------------------------- */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.marca {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* ETAPA 3 — item 1: os itens do <nav> em uma única linha horizontal. */
+.menu-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* -------------------------------------------------------------------------
+   ETAPA 2 — 2. SELETOR DE CLASSE
+   A mesma classe .cartao é reaproveitada em VÁRIOS elementos da página:
+   no cartão do livro e nos três cartões de formato.
+   ------------------------------------------------------------------------- */
+.cartao {
+    background-color: #ffffff;
+    border: 1px solid #ddd4c0;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Outra classe reaproveitada: .link-menu está nos três links do menu. */
+.link-menu {
+    color: #f5f1e8;
+    text-decoration: none;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    padding: 0.25em 0.5em;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* -------------------------------------------------------------------------
+   ETAPA 2 — 4. PSEUDO-CLASSE :hover
+   Aplica estilo apenas enquanto o mouse está sobre o elemento.
+   Exigida nos links do menu e no botão "Adicionar ao carrinho".
+   ------------------------------------------------------------------------- */
+.link-menu:hover {
+    background-color: #f5f1e8;
+    color: #123d33;
+}
+
+.carrinho-resumo {
+    margin: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+#contador {
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0.1em 0.5em;
+    background-color: #c4732a;
+    border-radius: 1rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* =========================================================================
+   ETAPA 2 — EXPERIMENTO DE ESPECIFICIDADE
+   =========================================================================
+   O elemento <p class="selo" id="selo-destaque"> recebe DUAS regras de
+   background-color ao mesmo tempo: uma por id e outra por classe.
+
+   Resultado observado no navegador: prevalece o LARANJA (#c4732a), definido
+   por #selo-destaque.
+
+   Por quê? Porque o navegador só olha a ordem do arquivo quando as regras têm
+   a mesma especificidade. Aqui elas não têm: um seletor de id vale (1,0,0) e
+   um seletor de classe vale (0,1,0). O id vence por ser mais específico, mesmo
+   estando ESCRITO ANTES da regra de classe no arquivo — especificidade é
+   avaliada antes da ordem de declaração.
+
+   E se a cor da classe estivesse marcada com !important?
+   A declaração !important é avaliada em uma camada anterior à especificidade.
+   Então `background-color: #7a1f1f !important;` dentro de .selo passaria a
+   vencer, e o selo ficaria VERMELHO — o id perderia, apesar de mais
+   específico. Só outro !important de especificidade maior reverteria isso.
+   ========================================================================= */
+#selo-destaque {
+    background-color: #c4732a;   /* laranja — VENCE (especificidade 1,0,0) */
+    color: #ffffff;
+}
+
+.selo {
+    background-color: #7a1f1f;   /* vermelho — PERDE (especificidade 0,1,0) */
+    display: inline-block;
+    padding: 0.4em 0.9em;
+    border-radius: 0.25rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+/* =========================================================================
+   ETAPA 3 — item 2: CARTÃO DO LIVRO
+   =========================================================================
+   Ferramenta escolhida: CSS GRID.
+   Justificativa: o cartão não é uma fila simples de itens. Ele tem uma
+   estrutura de DUAS dimensões — uma coluna fixa para a capa e uma coluna
+   fluida para os dados do livro — e a capa precisa ocupar a altura toda ao
+   lado de um bloco de texto de altura variável. Com Grid eu declaro as duas
+   trilhas de uma vez (grid-template-columns) e o navegador alinha as colunas
+   sozinho. Com Flexbox eu teria que simular isso com flex-basis e wrappers
+   extras. Já o menu do cabeçalho é o caso oposto: uma linha só, uma dimensão,
+   e por isso lá usei Flexbox.
+   ========================================================================= */
+main {
+    /* Larguras em unidade relativa (%) — Etapa 4, item 3. */
+    width: 90%;
+    max-width: 62rem;
+    margin: 2rem auto;
+}
+
+.cartao-livro {
+    display: grid;
+    grid-template-columns: 18rem 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+}
+
+.capa {
+    /* Imagem nunca estoura a coluna em que está. */
+    width: 100%;
+    height: auto;
+    border-radius: 0.375rem;
+}
+
+.titulo-livro {
+    margin-top: 0;
+    font-size: 1.75rem;
+    color: #123d33;
+}
+
+.autor {
+    font-style: italic;
+    color: #5c5c5c;
+    margin-bottom: 0.5em;
+}
+
+.preco {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #123d33;
+}
+
+/* -------------------------------------------------------------------------
+   ETAPA 3 — BOTÃO "ADICIONAR AO CARRINHO"
+   Cor de fundo própria, padding generoso e mudança visível no :hover.
+   ------------------------------------------------------------------------- */
+#btn-adicionar {
+    display: inline-block;
+    background-color: #c4732a;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.375rem;
+    /* Padding generoso em unidade relativa (em) — Etapa 4, item 3. */
+    padding: 0.9em 2.2em;
+    font-size: 1rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+/* ETAPA 2 — :hover também no botão, reaproveitado pela Etapa 3. */
+#btn-adicionar:hover {
+    background-color: #8f4f16;
+    transform: translateY(-2px);
+}
+
+#btn-adicionar:active {
+    transform: translateY(0);
+}
+
+/* Lista do carrinho, preenchida pelo JavaScript da Etapa 5. */
+#carrinho {
+    margin-top: 1rem;
+    padding-left: 1.25rem;
+}
+
+#carrinho li {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* -------------------------------------------------------------------------
+   BLOCOS TEMÁTICOS
+   ------------------------------------------------------------------------- */
+.bloco {
+    margin-bottom: 2.5rem;
+}
+
+.bloco h2 {
+    color: #123d33;
+    border-bottom: 2px solid #ddd4c0;
+    padding-bottom: 0.3em;
+}
+
+.destaques {
+    padding-left: 1.25rem;
+}
+
+/* =========================================================================
+   ETAPA 3 — item 3: GRADE DE FORMATOS
+   =========================================================================
+   Ferramenta escolhida: CSS GRID (obrigatório nesta etapa).
+   Justificativa: os cartões de formato formam uma grade de DUAS dimensões —
+   precisam se alinhar em colunas e, quando não couberem, quebrar em novas
+   linhas mantendo o alinhamento vertical entre elas. Grid resolve linhas e
+   colunas ao mesmo tempo; com Flexbox as linhas seguintes não ficariam
+   alinhadas às colunas da primeira.
+   ========================================================================= */
+.grade-formatos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.cartao-formato h3 {
+    margin-top: 0;
+    color: #123d33;
+}
+
+.preco-formato {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #c4732a;
+}
+
+/* -------------------------------------------------------------------------
+   TABELA COMPARATIVA
+   ------------------------------------------------------------------------- */
+.tabela-formatos {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+.tabela-formatos caption {
+    text-align: left;
+    padding-bottom: 0.5em;
+    font-style: italic;
+    color: #5c5c5c;
+}
+
+.tabela-formatos th,
+.tabela-formatos td {
+    border: 1px solid #ddd4c0;
+    padding: 0.75em 1em;
+    text-align: left;
+}
+
+.tabela-formatos thead th {
+    background-color: #123d33;
+    color: #f5f1e8;
+}
+
+.tabela-formatos tbody tr:nth-child(even) {
+    background-color: #faf7f0;
+}
+
+/* -------------------------------------------------------------------------
+   ETAPA 6 — FORMULÁRIO DE CONTATO
+   ------------------------------------------------------------------------- */
+.formulario {
+    background-color: #ffffff;
+    border: 1px solid #ddd4c0;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    max-width: 30rem;
+}
+
+.campo {
+    display: block;
+    margin-bottom: 1.25rem;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 0.35em;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.95rem;
+}
+
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="password"] {
+    width: 100%;
+    padding: 0.6em;
+    font-size: 1rem;
+    border: 1px solid #c7bfa8;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+}
+
+.formulario fieldset {
+    border: 1px solid #ddd4c0;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1rem;
+}
+
+.formulario legend {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.95rem;
+    padding: 0 0.4em;
+}
+
+/* Nas opções de radio e checkbox o label fica AO LADO do controle. */
+.opcao {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    margin-right: 1.5rem;
+}
+
+.opcao label {
+    display: inline;
+    margin-bottom: 0;
+}
+
+/* O checkbox de novidades é um .campo E uma .opcao ao mesmo tempo. Sem esta
+   regra ele herdaria o inline-flex de .opcao e o botão Enviar subiria para a
+   mesma linha. Dois seletores de classe (0,2,0) vencem .opcao sozinho (0,1,0). */
+.campo.opcao {
+    display: flex;
+    margin-right: 0;
+}
+
+.btn-enviar {
+    background-color: #123d33;
+    color: #f5f1e8;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.8em 2em;
+    font-size: 1rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+}
+
+.btn-enviar:hover {
+    background-color: #0a2621;
+}
+
+/* -------------------------------------------------------------------------
+   RODAPÉ
+   ------------------------------------------------------------------------- */
+#rodape {
+    background-color: #123d33;
+    color: #f5f1e8;
+    text-align: center;
+    padding: 1.5em 1em;
+}
+
+#rodape p {
+    margin: 0.25em 0;
+}
+
+#rodape a {
+    color: #e8b77a;
+}
+
+/* =========================================================================
+   ETAPA 4 — RESPONSIVIDADE
+   =========================================================================
+   Ponto de quebra em 600px. Abaixo dessa largura:
+   - o cartão do livro passa de duas colunas para UMA, empilhando capa e
+     dados verticalmente em vez de lado a lado;
+   - o menu do cabeçalho deixa de ser uma linha e passa a exibir um item por
+     linha;
+   - a grade de formatos vira coluna única.
+   ========================================================================= */
+@media (max-width: 600px) {
+
+    #cabecalho {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1em;
+    }
+
+    /* Menu: uma linha por item. */
+    .menu-lista {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .link-menu {
+        display: block;
+    }
+
+    /* Cartão do livro empilhado. */
+    .cartao-livro {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .capa {
+        max-width: 14rem;
+        margin: 0 auto;
+    }
+
+    .grade-formatos {
+        grid-template-columns: 1fr;
+    }
+
+    #btn-adicionar {
+        width: 100%;
+    }
+
+    main {
+        width: 94%;
+    }
+}
